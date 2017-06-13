@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.ssm.dao.Book_BorrowDao">
+
+
+<select id="findAllBoBor"  resultType="Book_Borrow">
+SELECT *
+FROM book_borrow
+ORDER BY borrowid <!-- DESC -->
+</select>
+
+<select id="findBorrowById" parameterType="long"  resultType="Book_Borrow">
+select *
+from  book_borrow
+where borrowid=#{borrowid}
+
+</select>
+
+<insert id="addBoBor" 
+parameterType="Book_Borrow" 
+useGeneratedKeys="true"
+ keyProperty="borrowid" >
+ insert into book_borrow (bookid,userid,borrowdate,returndate,borrowstate)
+ values        (#{bookid},#{userid},#{borrowdate},#{returndate},#{borrowstate})
+
+</insert>
+
+<update id="updateBoBor" parameterType="Book_Borrow"> 
+update  book_borrow
+set    
+ bookid=#{bookid},
+ userid=#{userid},
+ borrowdate=#{borrowdate},
+ returndate=#{returndate},
+ borrowstate=#{borrowstate}
+where   borrowid=#{borrowid}
+   
+</update>
+
+<delete id="deleteBoBor" parameterType="long">
+delete from book_borrow
+where borrowid=#{borrowid}
+</delete> 
+
+
+
+</mapper>
