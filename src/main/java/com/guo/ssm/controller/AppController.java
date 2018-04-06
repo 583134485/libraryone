@@ -1,6 +1,8 @@
 package com.guo.ssm.controller;
 
+
 import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -13,9 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 /*import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;*/
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 /*import org.springframework.web.bind.annotation.SessionAttributes;*/
+import org.springframework.web.servlet.ModelAndView;
 
 import com.guo.ssm.model.Book;
 import com.guo.ssm.model.Book_Borrow;
@@ -36,7 +41,9 @@ public class AppController {
 	@Autowired
 	Book_BorrowService borrowservice;
 	
-	Logger log=Logger.getLogger(Class.class);
+	private final static Logger log=Logger.getLogger(Class.class);
+	
+	
 	
 	@RequestMapping(value={"/"},method=RequestMethod.GET)
 	public String mainlist(ModelMap model){
@@ -44,6 +51,13 @@ public class AppController {
 		model.addAttribute("success",m);
 		return  "success";		
 	}
+	
+	@RequestMapping(value={"/one"},method=RequestMethod.GET)
+	public String htmltestone(){
+		return "one";
+	}
+	
+	
 	//into login
 	@RequestMapping(value={"/userlogin"},method=RequestMethod.GET)
 	public String userlogin(ModelMap model){
@@ -179,15 +193,17 @@ public class AppController {
 	//post book edit
 	@RequestMapping(value={"/edit-book-{bookid}"},method=RequestMethod.POST)
 	//关于post submit no idea @valid and bindingresult must ?
-	public String updatebook( @ModelAttribute("book") @Valid  Book book,  BindingResult result,
+	public String updatebook( @ModelAttribute("book") @Valid  Book book, /* BindingResult result,*/
 			ModelMap model){
-		
-		if(result.hasErrors()){
-		
+		log.info("1");
+/*		if(result.hasErrors()){
+		  log.info("has error");
 			return "bookedit";
 			
-		}
+		}*/
+		log.info("2");
 		bookservice.updateBook(book);
+		log.info("3");
 		model.addAttribute("success", "Book " + 
 				book.getBookid() +
 				book.getBookname()+

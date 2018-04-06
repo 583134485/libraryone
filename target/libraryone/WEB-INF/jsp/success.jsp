@@ -10,11 +10,12 @@
 <body>
 <div class="generic-container">
 	<div class="alert alert-success lead">
-    	${success}
+	666
+    	<%-- ${success} --%>
 	</div>
 	<p>
   <a class="btn btn-primary btn-large" href="<c:url value='/userlogin' />">登陆</a>
-  <button type="button" class="btn btn-default btn-lg">注册</button>
+  <a class="btn btn-primary btn-large" href="<c:url value='/newuser' />">注册</a>
 </p>
 	<span class="well floatRight">
 		前往<a href="<c:url value='/userlist' />">用户列表</a>

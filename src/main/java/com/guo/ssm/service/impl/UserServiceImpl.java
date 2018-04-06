@@ -22,10 +22,13 @@ public class UserServiceImpl implements UserService {
 	private RedisCache cache;
 	
 	
+	
+	
 
 	@Override
 	public List<User> fingAllUser() {
-		String cache_key=RedisCache.CAHCENAME+"|getAllUserList";
+		//String cache_key=RedisCache.CAHCENAME+"|getAllUserList";
+		String cache_key="user";
 		List<User> user=cache.getListCache(cache_key, User.class);
 		if(user==null){
 			//缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）

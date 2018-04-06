@@ -3,34 +3,54 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
 	http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
+	
+<!--可以通过在web.xml文件中添加servlet侦听器ContextLoaderListener来自定义此文件名和位置 	-->
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+	    <!-- Spring-shiro配置文件开始  -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>      
+            classpath:spring/shiro-beans.xml,
+            classpath:spring/spring-dao.xml,
+            classpath:spring/spring-redis.xml,
+            classpath:spring/spring-service.xml,
+            classpath:spring/spring-shiro.xml
+        </param-value>
+    </context-param>
+    
+    <context-param><!-- log4j.properties 配置 -->
 
-	<!--配置DispatcherServlet -->
-	<servlet>
-		<servlet-name>spring-dispatcher</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<!-- 配置SpringMVC需要加载的配置文件 spring-xxx.xml -->
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring/spring-*.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>spring-dispatcher</servlet-name>
-		<!--默认匹配所有的请求 -->
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
+<param-name>log4jConfigLocation</param-name>
 
-	<!-- druid -->
-	<servlet>
-		<servlet-name>DruidStatView</servlet-name>
-		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DruidStatView</servlet-name>
-		<url-pattern>/druid/*</url-pattern>
-	</servlet-mapping>
-	<!-- 中文过滤器 -->
+<param-value>classpath:log4j.properties</param-value>
+
+</context-param>
+  
+        <!-- Spring配置文件结束 -->
+
+    <!-- shiro 安全过滤器 -->
+    <!-- The filter-name matches name of a 'shiroFilter' bean inside applicationContext.xml -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <!-- Make sure any request you want accessible to Shiro is filtered. /* catches all -->
+    <!-- requests.  Usually this filter mapping is defined first (before all others) to -->
+    <!-- ensure that Shiro works in subsequent filters in the filter chain:             -->
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    	<!-- 中文过滤器 -->
 	<filter>
         <filter-name>characterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -47,8 +67,9 @@
         <filter-name>characterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
-	<filter>
+    
+    <!-- 以下过滤器  exclusions  排除不被过滤的 项  -->
+ 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
 		<init-param>
@@ -59,6 +80,75 @@
 	<filter-mapping>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> 
+	
+		<!-- druid 监控和扩展功能 -->
+<!--	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>-->
+	
+	<!--配置DispatcherServlet -->
+	<servlet>
+		<servlet-name>spring-dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 配置SpringMVC需要加载的配置文件 spring-xxx.xml -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/spring-web.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>spring-dispatcher</servlet-name>
+		<!--默认匹配所有的请求 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+	<servlet-name>demoservlet</servlet-name>
+	<servlet-class>com.guo.ssm.servlet.demoservlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	<servlet-name>demoservlet</servlet-name>
+	<url-pattern>/demoservlet</url-pattern>
+	</servlet-mapping>
+	
+	
+
+
+	
+<!-- 	<servlet>
+      <servlet-name>DownLoadServlet</servlet-name>
+      <servlet-class>me.gacl.web.controller.DownLoadServlet</servlet-class>
+</servlet>
+ 
+<servlet-mapping>
+      <servlet-name>DownLoadServlet</servlet-name>
+      <url-pattern>/servlet/DownLoadServlet</url-pattern>
+</servlet-mapping>
+	 -->
+
+   <welcome-file-list><!--指定欢迎页面-->  
+        <welcome-file>index.jsp</welcome-file>  
+    </welcome-file-list> 
+	
+    <error-page> <!--当系统出现404错误-->  
+        <error-code>404</error-code>  
+        <location>/404.jsp</location>  
+    </error-page> 
+    
+    <session-config><!--会话超时配置，单位分钟-->  
+        <session-timeout>1</session-timeout>  
+    </session-config>  
+
+
 
 </web-app>

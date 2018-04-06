@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.ssm.dao.KeysDao">
+<!-- 为社么key要加'key'????? -->
+ <select id="findall"  resultType="com.guo.ssm.model.KeysModel">
+ select *
+ FROM `keys`
+ </select>
+ 
+ <select id="findbyname" parameterType="String" resultType="com.guo.ssm.model.KeysModel">
+ select *
+ from `keys`
+ where name like CONCAT('%',#{name},'%')
+ </select>
+</mapper>

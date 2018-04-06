@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.ssm.dao.TaobaoshopDao">
+	<sql id="sqlall">
+		<!-- select * -->
+		shop,
+		URL,
+		ID,
+		totalSale,
+		tPrice,
+		name,
+		pic,
+		brand,
+		material,
+		season,
+		color,
+		sex,
+		fabric,
+		style,
+		paint,
+		huohao,
+		qudao,
+		oPrice,
+		sizeColor,
+		SKU,
+		stock,
+		recordTime
+	</sql>
+
+
+	<sql id="allkey">
+		<trim prefix="(" suffixOverrides="," suffix=")">
+			<if test="shop!=null and shop!='' ">shop,</if>
+			<if test="URL!=null and URL!=''">URL,</if>
+			<if test="ID!=null and ID!=''">ID,</if>
+			<if test="totalSale!=null and totalSale!=''">totalSale,</if>
+			<if test="tPrice!=null and tPrice!=''">tPrice,</if>
+			<if test="name!=null and name!=''">name,</if>
+			<if test="pic!=null and pic!=''">pic,</if>
+			<if test="brand!=null and brand!=''">brand,</if>
+			<if test="material!=null and material!=''">material,</if>
+			<if test="season!=null and season!=''">season,</if>
+			<if test="color!=null and color!=''">color,</if>
+			<if test="sex!=null and sex!=''">sex,</if>
+			<if test="fabric!=null and fabric!=''">fabric,</if>
+			<if test="style!=null and style!=''">style,</if>
+			<if test="paint!=null and paint!=''">paint,</if>
+			<if test="huohao!=null and huohao!=''">huohao,</if>
+			<if test="qudao!=null and qudao!=''">qudao,</if>
+			<if test="oPrice!=null and oPrice!=''">oPrice,</if>
+			<if test="sizeColor!=null and sizeColor!=''">sizeColor,</if>
+			<if test="SKU!=null and SKU!=''">SKU,</if>
+			<if test="stock!=null and stock!=''">stock,</if>
+			<if test="recordTime!=null ">recordTime</if>
+		</trim>
+	</sql>
+	<sql id="allvalue">
+		<trim prefix="(" suffixOverrides="," suffix=")">
+			<if test="shop!=null and shop!='' ">#{shop},</if>
+			<if test="URL!=null and URL!=''">#{URL},</if>
+			<if test="ID!=null and ID!=''">#{ID},</if>
+			<if test="totalSale!=null and totalSale!=''">#{totalSale},</if>
+			<if test="tPrice!=null and tPrice!=''">#{tPrice},</if>
+			<if test="name!=null and name!=''">#{name},</if>
+			<if test="pic!=null and pic!=''">#{pic},</if>
+			<if test="brand!=null and brand!=''">#{brand},</if>
+			<if test="material!=null and material!=''">#{material},</if>
+			<if test="season!=null and season!=''">#{season},</if>
+			<if test="color!=null and color!=''">#{color},</if>
+			<if test="sex!=null and sex!=''">#{sex},</if>
+			<if test="fabric!=null and fabric!=''">#{fabric},</if>
+			<if test="style!=null and style!=''">#{style},</if>
+			<if test="paint!=null and paint!=''">#{paint},</if>
+			<if test="huohao!=null and huohao!=''">#{huohao},</if>
+			<if test="qudao!=null and qudao!=''">#{qudao},</if>
+			<if test="oPrice!=null and oPrice!=''">#{oPrice},</if>
+			<if test="sizeColor!=null and sizeColor!=''">#{sizeColor},</if>
+			<if test="SKU!=null and SKU!=''">#{SKU},</if>
+			<if test="stock!=null and stock!=''">#{stock},</if>
+			<if test="recordTime!=null ">#{recordTime}</if>
+		</trim>
+	</sql>
+	<sql id="sqlwhere">
+		from taobaoshop
+		limit 0,100000
+	</sql>
+	<sql id="limit0,10">
+		limit 0,10
+	</sql>
+	<sql id="limit0,100000">
+		limit 0,100000
+	</sql>
+	<sql id="select">
+	<trim suffixOverrides=",">
+			<if test="shop!=null and shop!='' ">shop,</if>
+			<if test="URL!=null and URL!=''">URL,</if>
+			<if test="ID!=null and ID!=''">ID,</if>
+			<if test="totalSale!=null and totalSale!=''">totalSale,</if>
+			<if test="tPrice!=null and tPrice!=''">tPrice,</if>
+			<if test="name!=null and name!=''">name,</if>
+			<if test="pic!=null and pic!=''">pic,</if>
+			<if test="brand!=null and brand!=''">brand,</if>
+			<if test="material!=null and material!=''">material,</if>
+			<if test="season!=null and season!=''">season,</if>
+			<if test="color!=null and color!=''">color,</if>
+			<if test="sex!=null and sex!=''">sex,</if>
+			<if test="fabric!=null and fabric!=''">fabric,</if>
+			<if test="style!=null and style!=''">style,</if>
+			<if test="paint!=null and paint!=''">paint,</if>
+			<if test="huohao!=null and huohao!=''">huohao,</if>
+			<if test="qudao!=null and qudao!=''">qudao,</if>
+			<if test="oPrice!=null and oPrice!=''">oPrice,</if>
+			<if test="sizeColor!=null and sizeColor!=''">sizeColor,</if>
+			<if test="SKU!=null and SKU!=''">SKU,</if>
+			<if test="stock!=null and stock!=''">stock,</if>
+			<if test="recordTime!=null ">recordTime</if>
+		</trim>
+	</sql>
+
+	<!--Dao 返回值是taobaoshop 真实返回值是taobaoDto -->
+	<select id="findAll" parameterType="int"
+		resultType="com.guo.ssm.model.Taobaoshop">
+		select *
+		from taobaoshop
+		limit #{index},#{limit}
+	</select>
+
+
+	<select id="findbykeys" parameterType="KeysModel" resultType="Taobaoshop">
+		select *
+		from taobaoshop
+		where
+		shop like CONCAT('%',#{name},'%')
+		
+		limit 0,1000
+	</select>
+
+	<!-- <select id="findAll" resultType="Taobaoshop"> select * from taobaoshop 
+		limit 0,100000 </select> -->
+
+
+	<!--对所有字段的动态查询 -->
+	<!--注释的位置也会使程序报错 -->
+	<!-- 可以动态选择字段了 suffixOverrides 拼写要正确，网上错误很多 
+	and recordTime!='' 去除 不然报错 -->
+	<!-- prefix="select" -->
+	<!-- suffix="from taobaoshop limit 0,10" -->
+	<select id="findaall" resultType="com.guo.ssm.dto.TaobaoDto"
+		parameterType="com.guo.ssm.dto.TaobaoDto">
+		select
+		<include refid="select"></include>
+		from taobaoshop
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="recordTime!=null ">recordTime>=#{recordTime}</if>
+		</trim>
+		<include refid="limit0,10"></include>
+	</select>
+
+
+	<!-- <select id="findaall" resultType="TaobaoDto" parameterType="TaobaoDto"> 
+		<include refid="sqlall"></include> <include refid="sqlwhere"></include> </select> -->
+
+	<!--动态插入 虽然数据表都不为NULL 暂时给全值，主键不能重复 -->
+	<insert id="add" parameterType="Taobaoshop">
+		insert into taobaoshop
+		<include refid="allkey"></include>
+		values
+		<include refid="allvalue"></include>
+	</insert>
+<!-- open="(" close=")" 注意格式，批量插入是否会出现sql error injection -->
+	<insert id="insertByBatch" parameterType="java.util.List">
+		insert into taobaoshop
+		(<include refid="sqlall"></include>)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator="," >
+			( #{item.shop},
+			#{item.URL},
+			#{item.ID},
+			#{item.totalSale},
+			#{item.tPrice},
+			#{item.name},
+			#{item.pic},
+			#{item.brand},
+			#{item.material},
+			#{item.season},
+			#{item.color},
+			#{item.sex},
+			#{item.fabric},
+			#{item.style},
+			#{item.paint},
+			#{item.huohao},
+			#{item.qudao},
+			#{item.oPrice},
+			#{item.sizeColor},
+			#{item.SKU},
+			#{item.stock},
+			#{item.recordTime} )
+		</foreach>
+	</insert>
+
+
+	<update id="update" parameterType="Taobaoshop">
+		update taobaoshop
+		<set>
+			<trim suffixOverrides=",">
+				<if test="shop!=null and shop!='' ">shop=#{shop},</if>
+				<if test="URL!=null and URL!=''">URL=#{URL},</if>
+				<if test="ID!=null and ID!=''">ID=#{ID},</if>
+				<if test="totalSale!=null and totalSale!=''">totalSale=#{totalSale},</if>
+				<if test="tPrice!=null and tPrice!=''">tPrice=#{tPrice},</if>
+				<if test="name!=null and name!=''">name=#{name},</if>
+				<if test="pic!=null and pic!=''">pic=#{pic},</if>
+				<if test="brand!=null and brand!=''">brand=#{brand},</if>
+				<if test="material!=null and material!=''">material=#{brand},</if>
+				<if test="season!=null and season!=''">season=#{season},</if>
+				<if test="color!=null and color!=''">color=#{color},</if>
+				<if test="sex!=null and sex!=''">sex=#{sex},</if>
+				<if test="fabric!=null and fabric!=''">fabric=#{fabric},</if>
+				<if test="style!=null and style!=''">style=#{style},</if>
+				<if test="paint!=null and paint!=''">paint=#{paint},</if>
+				<if test="huohao!=null and huohao!=''">huohao=#{huohao},</if>
+				<if test="qudao!=null and qudao!=''">qudao=#{qudao},</if>
+				<if test="oPrice!=null and oPrice!=''">oPrice=#{oPrice},</if>
+				<if test="sizeColor!=null and sizeColor!=''">sizeColor=#{sizeColor},</if>
+				<if test="SKU!=null and SKU!=''">SKU=#{SKU},</if>
+				<if test="stock!=null and stock!=''">stock=#{stock},</if>
+				<if test="recordTime!=null ">recordTime=#{recordTime}</if>
+			</trim>
+		</set>
+		where SKU=#{SKU}
+	</update>
+
+
+
+</mapper>

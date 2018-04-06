@@ -10,7 +10,8 @@
 <body>
 <div class="generic-container">
 	<div class="alert alert-success lead">
-    	${success}
+	666
+    	<%-- ${success} --%>
 	</div>
 	<p>
   <a class="btn btn-primary btn-large" href="<c:url value='/userlogin' />">登陆</a>

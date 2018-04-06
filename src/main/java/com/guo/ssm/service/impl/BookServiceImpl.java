@@ -2,9 +2,13 @@ package com.guo.ssm.service.impl;
 
 import java.util.List;
 
+import javax.sql.rowset.serial.SerialException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.guo.ssm.controller.exception.ServiceException;
 import com.guo.ssm.dao.BookDao;
 import com.guo.ssm.model.Book;
 import com.guo.ssm.service.BookService;
@@ -19,6 +23,7 @@ public class BookServiceImpl implements BookService {
 		return book;
 	}
 
+	
 	@Override
 	public void addBook(Book book) {
 		bookdao.addBook(book);
@@ -30,10 +35,18 @@ public class BookServiceImpl implements BookService {
 		bookdao.deleteBook(bookid);
 
 	}
-
+    
+	@Transactional
 	@Override
 	public void updateBook(Book book) {
-		bookdao.updateBook(book);
+		if(book.getBookname().equals("6666")){
+		 throw	 new ServiceException("6666 is not good");
+		}
+		
+		else{
+			bookdao.updateBook(book);
+		}
+		
 
 	}
 	@Override

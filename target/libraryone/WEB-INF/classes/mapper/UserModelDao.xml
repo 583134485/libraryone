@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.ssm.dao.UserModelDao">
+
+<select id="FindById"  resultType="com.guo.ssm.model.UserModel" parameterType="long" >
+select * from
+usermodel
+where userid=#{userid}
+</select>
+
+<select id="FindByName" resultType="com.guo.ssm.model.UserModel" 
+parameterType="String">
+select * 
+from
+usermodel
+where username=#{username}
+limit 1
+</select>
+
+<!--自增id  -->
+<insert id="createUser" parameterType="com.guo.ssm.model.UserModel"
+useGeneratedKeys="true"
+ keyProperty="userid">
+insert into 
+usermodel
+(username,userpassword,salt)
+values(#{username},#{userpassword},#{salt})
+</insert>
+
+<insert id="addUserRole" parameterType="long">
+insert into
+userrolemodel
+(userid,roleid)
+values
+(#{userid},#{roleid})
+</insert>
+
+<!-- 多表查询 -->
+<select id="findRoles" resultType="string"
+parameterType="String">
+select role 
+from 
+usermodel u,userrolemodel ur,rolemodel r
+where
+u.username=#{username}
+and u.userid=ur.userid
+and ur.roleid=r.roleid
+</select>
+
+<select id="findPermissions" resultType="String"
+parameterType="String">
+select permission from 
+usermodel u,rolemodel r,permissionmodel p,
+userrolemodel ur,rolepermissionmodel rp
+where u.username=#{username}
+and u.userid=ur.userid
+and ur.roleid=r.roleid
+and r.roleid=rp.roleid
+and rp.permissionid=p.permissionid
+</select>
+
+
+</mapper>

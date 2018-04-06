@@ -5,6 +5,7 @@ import java.util.List;
 import com.guo.ssm.model.User;
 
 public interface UserService {
+	
 	List <User> fingAllUser();
 	
 	void updateUser(User user);
@@ -13,10 +14,12 @@ public interface UserService {
 	
 	void deleteUserById(long userid);
 	
-	 User findUserById(long userid);
-	 
+	 User findUserById(long userid);	 
 	 //login 
 	 User UserLogin(String username,String userpassword);
+	 
+	 
+	 
 	 
 	
 	

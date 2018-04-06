@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
+Source Server         : s
 Source Server Version : 50505
 Source Host           : localhost:3306
 Source Database       : library
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-06-03 12:06:09
+Date: 2017-11-22 22:31:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,18 +23,7 @@ CREATE TABLE `book` (
   `bookid` bigint(11) NOT NULL AUTO_INCREMENT,
   `bookname` varchar(50) NOT NULL,
   PRIMARY KEY (`bookid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of book
--- ----------------------------
-INSERT INTO `book` VALUES ('0', '交流空间链');
-INSERT INTO `book` VALUES ('1', '9999');
-INSERT INTO `book` VALUES ('2', '哈哈');
-INSERT INTO `book` VALUES ('3', '东风公司');
-INSERT INTO `book` VALUES ('5', '西游士大夫');
-INSERT INTO `book` VALUES ('7', '');
-INSERT INTO `book` VALUES ('8', 'dfg ');
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for book_borrow
@@ -48,14 +37,168 @@ CREATE TABLE `book_borrow` (
   `returndate` date DEFAULT NULL,
   `borrowstate` varchar(255) NOT NULL,
   PRIMARY KEY (`borrowid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of book_borrow
+-- Table structure for hotgoods
 -- ----------------------------
-INSERT INTO `book_borrow` VALUES ('3', '1', '2', '2017-06-01', '2017-06-07', '6');
-INSERT INTO `book_borrow` VALUES ('4', '100', '55', '2017-06-03', '2017-06-03', '44');
-INSERT INTO `book_borrow` VALUES ('5', '2', '2', '2017-05-05', '2017-06-10', '2');
+DROP TABLE IF EXISTS `hotgoods`;
+CREATE TABLE `hotgoods` (
+  `id` varchar(255) NOT NULL COMMENT 'id',
+  `styleNumber` varchar(255) NOT NULL COMMENT '款号',
+  `datatime` varchar(255) NOT NULL COMMENT '日期（到日）',
+  `pictureUrl` varchar(255) DEFAULT NULL COMMENT '图片url',
+  `tagPrice` int(11) DEFAULT NULL COMMENT '吊牌价',
+  `Newquotation` int(11) DEFAULT NULL COMMENT '上新价',
+  `discount` varchar(255) DEFAULT NULL COMMENT '折扣',
+  `fabric` varchar(255) DEFAULT NULL COMMENT '面料',
+  `typeVersion` varchar(255) DEFAULT NULL COMMENT '版型',
+  `year` varchar(255) DEFAULT NULL COMMENT '年份',
+  `season` varchar(255) DEFAULT NULL COMMENT '季节',
+  `brand` varchar(255) DEFAULT NULL COMMENT '品牌',
+  `productLine` varchar(255) DEFAULT NULL COMMENT '产品线',
+  `flow` int(11) DEFAULT NULL COMMENT '流量',
+  `plus` int(11) DEFAULT NULL COMMENT '加购',
+  `money` int(11) DEFAULT NULL COMMENT '金额',
+  `purchaseRate` varchar(255) DEFAULT NULL COMMENT '加购率',
+  `conversion` varchar(255) DEFAULT NULL COMMENT '转化率',
+  `price` int(11) DEFAULT NULL COMMENT '单价',
+  `payment` int(11) DEFAULT NULL COMMENT '支付',
+  `category` varchar(255) DEFAULT NULL COMMENT '品类',
+  PRIMARY KEY (`id`,`styleNumber`,`datatime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for keys
+-- ----------------------------
+DROP TABLE IF EXISTS `keys`;
+CREATE TABLE `keys` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '记录ID',
+  `name` varchar(255) NOT NULL COMMENT '店铺名称',
+  `url` varchar(255) NOT NULL COMMENT '商铺URL',
+  `type` varchar(255) NOT NULL COMMENT '商铺类型',
+  `state` int(11) NOT NULL DEFAULT '0' COMMENT '记录状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for permissionmodel
+-- ----------------------------
+DROP TABLE IF EXISTS `permissionmodel`;
+CREATE TABLE `permissionmodel` (
+  `permissionid` int(11) NOT NULL AUTO_INCREMENT,
+  `permission` varchar(255) NOT NULL COMMENT '权限',
+  `description` varchar(255) NOT NULL COMMENT '描述',
+  PRIMARY KEY (`permissionid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for rolemodel
+-- ----------------------------
+DROP TABLE IF EXISTS `rolemodel`;
+CREATE TABLE `rolemodel` (
+  `roleid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'roleid',
+  `role` varchar(255) NOT NULL COMMENT '角色',
+  `description` varchar(255) NOT NULL COMMENT '描述',
+  PRIMARY KEY (`roleid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for rolepermissionmodel
+-- ----------------------------
+DROP TABLE IF EXISTS `rolepermissionmodel`;
+CREATE TABLE `rolepermissionmodel` (
+  `roleid` int(11) NOT NULL COMMENT 'roleid',
+  `permissionid` int(11) NOT NULL COMMENT 'permissionid',
+  PRIMARY KEY (`roleid`,`permissionid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for shengecanmou
+-- ----------------------------
+DROP TABLE IF EXISTS `shengecanmou`;
+CREATE TABLE `shengecanmou` (
+  `recordtime` date NOT NULL COMMENT '记录日期',
+  `id` varchar(255) NOT NULL COMMENT '商品ID',
+  `title` varchar(255) NOT NULL COMMENT '商品标题',
+  `terminal` varchar(255) NOT NULL COMMENT '所属终端',
+  `state` varchar(255) NOT NULL COMMENT '商品在线状态',
+  `url` varchar(255) NOT NULL COMMENT '商品连接',
+  `views` varchar(255) NOT NULL COMMENT '浏览量',
+  `visitors` varchar(255) NOT NULL COMMENT '访客数',
+  `staytime` varchar(255) NOT NULL COMMENT '平均停留时长',
+  `detailspage` varchar(255) NOT NULL COMMENT '详情页跳出率',
+  `orderconrate` varchar(255) NOT NULL COMMENT '下单转化率',
+  `payconrate` varchar(255) NOT NULL COMMENT '支付转化率',
+  `payamount` varchar(255) NOT NULL COMMENT '支付金额',
+  `paygoods` varchar(255) NOT NULL COMMENT '支付商品件数',
+  `paybuyers` varchar(255) NOT NULL COMMENT '支付买家数',
+  `orderpayconrate` varchar(255) NOT NULL COMMENT '下单支付转化率',
+  `ordergoods` varchar(255) NOT NULL COMMENT '下单金额',
+  `orderamount` varchar(255) NOT NULL COMMENT '下单商品件数',
+  `orderbuyers` varchar(255) NOT NULL COMMENT '下单买家数',
+  `purchase` varchar(255) NOT NULL COMMENT '加购件数',
+  `visitorsvalue` varchar(255) NOT NULL COMMENT '访客平均价值',
+  `clicktimes` varchar(255) NOT NULL COMMENT '点击次数',
+  `clickrate` varchar(255) NOT NULL COMMENT '点击率',
+  `exposure` varchar(255) NOT NULL COMMENT '曝光率',
+  `collection` varchar(255) NOT NULL COMMENT '收藏人数',
+  `unitprice` varchar(255) NOT NULL COMMENT '客单价',
+  `searchpay` varchar(255) NOT NULL COMMENT '搜索支付转化率',
+  `searchbuyers` varchar(255) NOT NULL COMMENT '搜索引导支付买家数',
+  `searchvisitors` varchar(255) NOT NULL COMMENT '搜索引导访客数',
+  `refundamount` varchar(255) NOT NULL COMMENT '售中售后成功退款金额',
+  `refundnumbers` varchar(255) NOT NULL COMMENT '售中售后成功退款笔数',
+  PRIMARY KEY (`recordtime`,`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for shengejing
+-- ----------------------------
+DROP TABLE IF EXISTS `shengejing`;
+CREATE TABLE `shengejing` (
+  `id` varchar(255) NOT NULL COMMENT '商品ID',
+  `name` varchar(255) DEFAULT NULL COMMENT '商品标题',
+  `hotword` varchar(255) DEFAULT NULL COMMENT '热搜词',
+  `pc` varchar(255) DEFAULT NULL COMMENT 'PC流量',
+  `app` varchar(255) DEFAULT NULL COMMENT '手淘流量',
+  `shop` varchar(255) NOT NULL COMMENT '店铺名称',
+  `code` varchar(255) DEFAULT NULL COMMENT '商家编码',
+  `type` varchar(255) DEFAULT NULL COMMENT '行业类目',
+  `uptime` datetime DEFAULT NULL COMMENT '上架时间',
+  `recordtime` datetime NOT NULL COMMENT '记录时间',
+  PRIMARY KEY (`id`,`shop`,`recordtime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for taobaoshop
+-- ----------------------------
+DROP TABLE IF EXISTS `taobaoshop`;
+CREATE TABLE `taobaoshop` (
+  `shop` varchar(255) NOT NULL COMMENT '店铺',
+  `URL` varchar(255) NOT NULL COMMENT '商品URL',
+  `ID` varchar(255) NOT NULL COMMENT '商品ID',
+  `totalSale` varchar(255) NOT NULL COMMENT '总销量',
+  `tPrice` varchar(255) NOT NULL COMMENT '价格',
+  `name` varchar(255) NOT NULL COMMENT '名称',
+  `pic` varchar(255) NOT NULL COMMENT '图片',
+  `brand` varchar(255) NOT NULL COMMENT '品牌',
+  `material` varchar(255) NOT NULL COMMENT '材质成分',
+  `season` varchar(255) NOT NULL COMMENT '季节',
+  `color` varchar(255) NOT NULL COMMENT '颜色',
+  `sex` varchar(255) NOT NULL COMMENT '性别',
+  `fabric` varchar(255) NOT NULL COMMENT '面料',
+  `style` varchar(255) NOT NULL COMMENT '风格',
+  `paint` varchar(255) NOT NULL COMMENT '图案',
+  `huohao` varchar(255) NOT NULL COMMENT '货号',
+  `qudao` varchar(255) NOT NULL COMMENT '渠道',
+  `oPrice` varchar(255) NOT NULL COMMENT '原价',
+  `sizeColor` varchar(255) NOT NULL COMMENT '色码',
+  `SKU` varchar(255) NOT NULL COMMENT '商品SKU',
+  `stock` varchar(255) NOT NULL COMMENT '库存',
+  `recordTime` datetime NOT NULL COMMENT '记录时间',
+  PRIMARY KEY (`SKU`,`recordTime`,`shop`,`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user
@@ -67,18 +210,26 @@ CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `userclass` varchar(50) NOT NULL,
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of user
+-- Table structure for usermodel
 -- ----------------------------
-INSERT INTO `user` VALUES ('2', 'ddd', '第三方', '啊阿三大树');
-INSERT INTO `user` VALUES ('3', 'sad', 'asd', 'ads');
-INSERT INTO `user` VALUES ('5', 'abc', '付哦小', 'bc');
-INSERT INTO `user` VALUES ('6', 'fff', 'sssss', 'class1');
-INSERT INTO `user` VALUES ('7', 'fff', 'sssss', 'class1');
-INSERT INTO `user` VALUES ('8', 'fff', 'sssss', 'class1');
-INSERT INTO `user` VALUES ('9', 'fff', '渣渣', 'class1');
-INSERT INTO `user` VALUES ('10', 'fff', '渣渣炸', 'class1');
-INSERT INTO `user` VALUES ('11', 'fff', 'sdf a', 'class1');
-INSERT INTO `user` VALUES ('13', 'sdfsa', 'sda', 'sfdasf');
+DROP TABLE IF EXISTS `usermodel`;
+CREATE TABLE `usermodel` (
+  `userid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'userid',
+  `username` varchar(255) NOT NULL COMMENT '用户名',
+  `userpassword` varchar(255) NOT NULL COMMENT '密码',
+  `salt` varchar(255) NOT NULL COMMENT 'salt',
+  PRIMARY KEY (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for userrolemodel
+-- ----------------------------
+DROP TABLE IF EXISTS `userrolemodel`;
+CREATE TABLE `userrolemodel` (
+  `userid` int(11) NOT NULL COMMENT 'userid',
+  `roleid` int(11) NOT NULL COMMENT 'roleid',
+  PRIMARY KEY (`userid`,`roleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

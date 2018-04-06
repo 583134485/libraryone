@@ -16,14 +16,15 @@
  	<form:form method="POST" modelAttribute="user" class="form-horizontal">
  	<!-- loing 不需要下面这个 -->
 		<%-- <form:input type="hidden" path="userid" id="userid" /> --%>
+		 <form:input type="hidden" path="userclass" id="userclass" />
 		<div class="row">
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-lable" for="username">username</label>
 				<div class="col-md-7">
 					<form:input type="text" path="username" id="username" class="form-control input-sm"/>
-					<div class="has-error">
+					 <div class="has-error">
 						<form:errors path="username" class="help-inline"/>
-					</div> 
+					</div>  
 				</div>
 			</div>
 		</div>
@@ -32,9 +33,9 @@
 				<label class="col-md-3 control-lable" for="userpassword">userpassword</label>
 				<div class="col-md-7">
 					<form:input type="password" path="userpassword" id="userpassword" class="form-control input-sm" />
-					 <div class="has-error">
+					  <div class="has-error">
 						<form:errors path="userpassword" class="help-inline"/>
-					</div> 
+					</div>  
 				</div>
 			</div>
 		</div>
@@ -96,7 +97,8 @@
             <div class="row">
 			<div class="form-actions floatRight">				
 			<input type="submit" value="Login" class="btn btn-primary btn-sm"/> 
-			or <a href="<c:url value='/success' />">Cancel</a>
+			or <a href="<c:url value='/' />">Cancel</a>
+			<!--  <a href="<c:url value='/success' />这样写会错，原油马，估计不知道和controller 灭有“/success有关”    -->
 			</div>
 		   </div> 
 	</form:form>
