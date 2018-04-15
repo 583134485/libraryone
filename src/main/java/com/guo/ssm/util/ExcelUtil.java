@@ -4,17 +4,19 @@ package com.guo.ssm.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-
-import org.apache.log4j.Logger;
+import javax.naming.spi.DirStateFactory.Result;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -28,8 +30,11 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.guo.ssm.dto.GoodSale3DDto;
+import com.guo.ssm.model.ExcelViewModel;
 import com.guo.ssm.model.ShengecanmouModel;
 
 /**
@@ -39,8 +44,117 @@ import com.guo.ssm.model.ShengecanmouModel;
 
 public class ExcelUtil {
 
-	Logger logger = Logger.getLogger(Class.class);
+	private  static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
 
+	
+	//解析 excel  直接 的成为  前端 可用 视图  （并列 模式）
+ 	public  static Map<String, List<String>> ParseExcelToExcelModel(String filepath) throws InvalidFormatException, IOException {
+		File file=new File(filepath);
+		if(file.isFile()&&file.exists()) {
+			FileInputStream fileInputStream = new FileInputStream(file);
+
+
+			// 用新的api
+			Workbook workbook = WorkbookFactory.create(fileInputStream);
+
+			Sheet spreadsheet = workbook.getSheetAt(0);
+
+			Sheet spreadsheet2 = workbook.getSheetAt(0);
+			Iterator<Row> rowIterator = spreadsheet.iterator();
+			Map<String, List<String>> excelViewMap=new HashMap<>();
+			String keyname=null;
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				// 每个单元
+				Iterator<Cell> cellIterator = row.cellIterator();
+            List<String> data=new ArrayList<>();
+				while (cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+					//all to string 避免 各种格式
+					int columnIndex=cell.getColumnIndex();
+					int cellType=cell.getCellType();
+					String cellvalue=null;
+					if(cellType==cell.CELL_TYPE_NUMERIC) {
+						//logger.info(" number cell="+cellvalue+"type"+cell.getCellType());
+						//is date 
+						if(XSSFDateUtil.isCellDateFormatted(cell))
+						{
+							//logger.info("is date");
+
+							double d=cell.getNumericCellValue();
+							java.util.Date date=XSSFDateUtil.getJavaDate(d);
+							//SimpleDateFormat format=new SimpleDateFormat("yyyy/MM/dd");
+							SimpleDateFormat format=new SimpleDateFormat("MM/dd");
+							String datestring =format.format(date);
+							cellvalue=datestring;
+							//logger.info("is date:"+datestring);							
+						}
+						else {
+							 double d=cell.getNumericCellValue();
+							 d=MathUtil.KeepDecimal(d, 2);
+							 logger.info("d=="+d);
+							// cell.setCellType(Cell.CELL_TYPE_STRING);
+							 cellvalue=Double.toString(d);
+						}
+					}
+					else {
+						cell.setCellType(Cell.CELL_TYPE_STRING);
+						 cellvalue=cell.getStringCellValue();
+					}
+	   
+
+					//logger.info("cell="+cellvalue+"type"+cell.getCellType());
+					String rowname=null;
+					//row key name
+
+					int rowIndex=cell.getRowIndex();
+					if(cellvalue==null) {
+						logger.info("cell have null cell");
+						return null;
+					}
+					if(columnIndex==0) {
+						 rowname=cell.getStringCellValue();	
+
+							 if(excelViewMap.containsKey(rowname)) {
+								 logger.info("repeat row name"+rowname);
+								 return null;
+							 }
+							 else {
+								 //put key name in map
+								 excelViewMap.put(rowname, null);
+							 }
+				 
+					}
+					//data list
+					else {
+					
+						 keyname = spreadsheet2.getRow(rowIndex).getCell(0).toString();
+							 data.add(cellvalue);
+						 
+					}
+					
+					
+				
+				}
+				//add data
+				excelViewMap.put(keyname, data);
+        
+				
+			}
+			logger.info("Result map==="+excelViewMap.toString());
+			return excelViewMap;
+			
+		}
+      
+		else {
+			return null;
+		}
+	
+		
+	}
+	
+	
+	
 	// 一个excel文件转化成model,同时识别 xls 和 xlsx
 	/**
 	 * @param excelpath
@@ -50,11 +164,9 @@ public class ExcelUtil {
 	 * @throws ParseException
 	 */
 	public List<ShengecanmouModel> SingleExcelOfShengecanmouToModel(String excelpath)
-			throws IOException, InvalidFormatException, ParseException {
-		
+			throws IOException, InvalidFormatException, ParseException { 		
 		// 创建file
 		File file = new File(excelpath);
-
 		if (file.isFile() && file.exists()) {
 			
 			// 假设字段行的位置不固定,但为了保险起见，应为可能字段列没有被记录

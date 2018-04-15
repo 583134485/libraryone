@@ -243,12 +243,24 @@
 
 
 		<!--springmvc end -->
-
+<!--mongodb start  -->
 <dependency>
     <groupId>org.mongodb</groupId>
     <artifactId>mongo-java-driver</artifactId>
     <version>3.6.3</version>
 </dependency>
+
+    <dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+      <version>1.10</version>
+    </dependency>
+       <dependency>
+        <groupId>org.jetbrains</groupId>
+        <artifactId>annotations-java5</artifactId>
+        <version>RELEASE</version>
+    </dependency>
+    <!--mongodb end  -->
 
 
 

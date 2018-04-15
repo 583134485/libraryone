@@ -5,17 +5,31 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.guo.ssm.dto.GoodSale3DDto;
 import com.guo.ssm.model.ShengecanmouModel;
 import com.guo.ssm.util.ExcelUtil;
 
 public class ExcelDaoTest {
-	Logger logger=Logger.getLogger(Class.class);
+	private static Logger logger=LoggerFactory.getLogger(ExcelDaoTest.class);
+	
+	
+	
+	@Test
+	public  void ParseExcelToExcelModeltest() throws InvalidFormatException, IOException {
+		
+      String filepath="C:\\Users\\58313\\Desktop\\css问题\\数据源564940950728.xlsx";
+		Map<String, List<String>> result=ExcelUtil.ParseExcelToExcelModel(filepath);
+		logger.info(result.toString());
+	}
+	
+	
 	@Test
 	public void testexcel() throws IOException, InvalidFormatException, ParseException{
 		ExcelUtil tExcelUtil=new ExcelUtil();
@@ -23,7 +37,7 @@ public class ExcelDaoTest {
 //	File file =new File(excelpath);
 	//	logger.info("name:"+file.getName());
 		List<ShengecanmouModel> shengecanmouModels=tExcelUtil.SingleExcelOfShengecanmouToModel(excelpath);
-		logger.info(shengecanmouModels.size());
+		//logger.info(shengecanmouModels.size());
 		//太多便利不方便
 	/*	for(ShengecanmouModel s:shengecanmouModels){
 			logger.info(s);
@@ -111,7 +125,7 @@ public class ExcelDaoTest {
 	/*	for(GoodSale3DDto goodSale3DDto:goodSale3DDtos){
 			logger.info(goodSale3DDto);
 		}*/
-		logger.info(goodSale3DDtos.size());
+		//logger.info(goodSale3DDtos.size());
 	}
 
 }

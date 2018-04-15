@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -15,17 +16,62 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import org.apache.log4j.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.guo.ssm.controller.ChartsController;
 
 /*
  * 文件操作
 */
 public class FileDaoUtil {
 
-	Logger log =Logger.getLogger(Class.class);
+	private  static final Logger log=LoggerFactory.getLogger(FileDaoUtil.class);
+	
+	private static String FileSavePath="D:\\fileUpload\\";
+	
+	
+	
+	
+  /**	single file uplaod 
+   * input multiparfile file 
+	return path*/
+   public  static String  UploadFile(MultipartFile file) {
+	 
+	   if(file==null) {
+		   log.info("file is null");
+		   return null;
+	   }
+	   //file is not null
+	   else {
+		  //file empty
+		   if(file.getSize()<0) {
+			   log.info("file is empty");
+			   return null;
+		   }
+		   else {
+               try {
+                   byte[] bytes = file.getBytes();
+                   File savedFilepath = new File(FileSavePath+ File.separator + file.getOriginalFilename());
+                   log.info("savedFilepath"+savedFilepath); 
+                   
+                   BufferedOutputStream stream = new BufferedOutputStream(
+                           new FileOutputStream(savedFilepath));
+                   stream.write(bytes);
+                   stream.close();
+                   return savedFilepath.toString();
+               } catch (IOException e) {
+            	   e.printStackTrace();
+                  log.info("Error Write file: " + FileSavePath);
+               }   
+		   }
+		   
+	   }
+	   return null;
+	}
+	
+	
 	//多文件上传
 	//返回多个文件的path
 	public String UploadFiles( MultipartFile[] files){
