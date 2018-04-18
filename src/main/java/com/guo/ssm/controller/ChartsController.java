@@ -49,7 +49,7 @@ public class ChartsController {
 		String filename =uploadFile.getOriginalFilename();
 		if(filename.endsWith("xlsx")||filename.endsWith("xls"))
 		{
-			
+			log.info("is excel file file name id"+filename);
 			return excelService.ParseSingleExcelToJson(uploadFile);
 		}
 		else {

@@ -102,16 +102,17 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-                 /static/** = anon
+                   /*=anon
+<!--                 /static/** = anon-->
                  <!--   这个 代表不拦截所有地址  -->
                 <!--  /**=authc -->
                 <!-- /login=authc 不设置 提交后也不能登陆 -->
-                  /login= authc 
+<!--                  /login= authc 
                 /alogout.jsp= authc
                 /index.jsp = authc               
                 /logout = logout
                 /userlist.jsp= authc                   
-                /unauthorized.jsp = anon                            
+                /unauthorized.jsp = anon                            -->
               <!--   /** = user -->
             </value>
         </property>

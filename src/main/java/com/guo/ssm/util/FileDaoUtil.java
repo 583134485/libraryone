@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.guo.ssm.controller.ChartsController;
+import com.guo.ssm.core.Constant;
 
 /*
  * 文件操作
@@ -29,7 +30,9 @@ public class FileDaoUtil {
 
 	private  static final Logger log=LoggerFactory.getLogger(FileDaoUtil.class);
 	
-	private static String FileSavePath="D:\\fileUpload\\";
+	//private static String FileSavePath="D:\\fileUpload\\";
+	private static String FileSavePath=Constant.uploadpath;
+	
 	
 	
 	
@@ -53,9 +56,13 @@ public class FileDaoUtil {
 		   else {
                try {
                    byte[] bytes = file.getBytes();
-                   File savedFilepath = new File(FileSavePath+ File.separator + file.getOriginalFilename());
-                   log.info("savedFilepath"+savedFilepath); 
-                   
+                   File filedir = new File(FileSavePath+ File.separator);
+                   //新环境 可能 出现  没有目录 的情况  (系统找不到指定路径)
+                   if(!filedir.exists()){
+                   log.info("创建新目录 "+filedir);
+                    filedir.mkdirs();
+                  }
+                   File savedFilepath=new File(filedir+file.getOriginalFilename());
                    BufferedOutputStream stream = new BufferedOutputStream(
                            new FileOutputStream(savedFilepath));
                    stream.write(bytes);
