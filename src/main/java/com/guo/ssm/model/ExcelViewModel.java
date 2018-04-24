@@ -1,8 +1,18 @@
 package com.guo.ssm.model;
 
-import java.awt.List;
 
+
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class ExcelViewModel {
+	@Id
+	public String id;
+	
+	public String filename;
 	
 	public List data;
 	//流量
@@ -10,14 +20,19 @@ public class ExcelViewModel {
 	//支付
 	public List payment;
 	//加购
-	private List plus;
+	public  List plus;
 	//金额
 	public List money;
 	//转化
 	public List  conversion;
 	//单价
 	public List price;
-	
+	public String getfilename() {
+		return filename;
+	}
+	public void setfilename(String filename) {
+		this.filename=filename;
+	}
 	
 	public List getData() {
 		return data;

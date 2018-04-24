@@ -16,8 +16,9 @@ public class Constant {
 		WEB_CONFIG = null;
 		debug = false;
 	}*/
-	//public static String uploadpath="D:\\fileUpload\\";
-	
+	//file upload for windows 
+	//public static String uploadpath="C:\\fileUpload\\";
+	//file upload for linux
 	public static String uploadpath="/upload/";
 	
 }

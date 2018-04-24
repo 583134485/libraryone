@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.guo.ssm</groupId>
@@ -52,13 +53,10 @@
 			<version>18.0</version>
 		</dependency>
 
-<!--log4j  -->
-<!-- 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency> -->
-		<!--slf4j 而不使用    -->
+		<!--log4j -->
+		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+			<version>1.2.17</version> </dependency> -->
+		<!--slf4j 而不使用 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -138,12 +136,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.7.4</version>
 		</dependency>
-		
+
 		<dependency>
-<groupId>org.json</groupId>
-<artifactId>json</artifactId>
-<version>20070829</version>
-</dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20070829</version>
+		</dependency>
 
 		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-validator</artifactId> 
 			<version>4.2.0.Final</version> </dependency> -->
@@ -214,8 +212,7 @@
 
 		<!-- <dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> 
 			<version>3.1.0</version> </dependency> -->
-<!-- 当程序运行时与tomcat中的jar包冲突了，只需要它在测试、编译阶段有用
-可以限制作用范围，改成如下 -->
+		<!-- 当程序运行时与tomcat中的jar包冲突了，只需要它在测试、编译阶段有用 可以限制作用范围，改成如下 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -243,24 +240,36 @@
 
 
 		<!--springmvc end -->
-<!--mongodb start  -->
+		<!--mongodb start -->
 <dependency>
     <groupId>org.mongodb</groupId>
     <artifactId>mongo-java-driver</artifactId>
-    <version>3.6.3</version>
+    <version>3.5.0</version>
 </dependency>
 
-    <dependency>
-      <groupId>commons-configuration</groupId>
-      <artifactId>commons-configuration</artifactId>
-      <version>1.10</version>
-    </dependency>
-       <dependency>
-        <groupId>org.jetbrains</groupId>
-        <artifactId>annotations-java5</artifactId>
-        <version>RELEASE</version>
-    </dependency>
-    <!--mongodb end  -->
+ <dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-mongodb</artifactId>
+    <version>1.8.2.RELEASE</version>
+</dependency> 
+<!-- spring-data-mongodb 版本要和spring core 保持 不然  无法 链接MongoDB not find class cuowu -->
+<!-- <dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-mongodb</artifactId>
+    <version>2.0.0.RELEASE</version>
+</dependency> -->
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations-java5</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<!--mongodb end -->
 
 
 
@@ -350,7 +359,7 @@
 			</resource>
 		</resources>
 		<plugins>
-		
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -394,8 +403,8 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			
-			<!--jetty 插件通常用来 热部署 调试  -->
+
+			<!--jetty 插件通常用来 热部署 调试 -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -403,14 +412,15 @@
 
 
 				<configuration>
-				    <!-- 热部署,扫描项目变更的时间间隔，默认为0不扫描 -->
-                    <scanIntervalSeconds>1</scanIntervalSeconds>
+					<!-- 热部署,扫描项目变更的时间间隔，默认为0不扫描 -->
+					<scanIntervalSeconds>1</scanIntervalSeconds>
 					<webAppConfig>
 						<contextPath>/libraryone</contextPath>
 					</webAppConfig>
 
 					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+						<connector
+							implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
 							<port>8080</port>
 						</connector>
 					</connectors>
