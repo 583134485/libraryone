@@ -171,7 +171,6 @@ public class ExcelUtil {
 			logger.info("文件打开有问题");
 			return null;
 		}
-
 			
 			// 假设字段行的位置不固定,但为了保险起见，应为可能字段列没有被记录
 			// 3应该是第4行
