@@ -108,7 +108,7 @@
      <property name="defaultEncoding" value="UTF-8"></property>
         <!-- Maximum file size: 1MB -->
         <!-- 1MB = 125000 Byte -->
-     <property name="maxUploadSize" value="1250000" /> 
+     <property name="maxUploadSize" value="12500000" /> 
    </bean>
 	<!--全局异常捕捉 -->
 	<!-- <bean class="com.guo.ssm.exception.GlobalExceptionResolver" /> -->

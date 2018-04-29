@@ -17,8 +17,8 @@ public class Constant {
 		debug = false;
 	}*/
 	//file upload for windows 
-	//public static String uploadpath="C:\\fileUpload\\";
+	public static String uploadpath="C:\\fileUpload";
 	//file upload for linux
-	public static String uploadpath="/upload/";
+	//public static String uploadpath="/upload/";
 	
 }

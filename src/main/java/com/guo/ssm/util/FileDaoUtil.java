@@ -55,14 +55,22 @@ public class FileDaoUtil {
 		   }
 		   else {
                try {
+            	   StringBuffer filepath=new StringBuffer();
+            	   filepath.append(FileSavePath);
+            	   if(filepath.toString().endsWith("\\")||filepath.toString().endsWith("/")) {
+            	   }
+            	   else {
+            		   filepath.append(System.getProperty("file.separator"));   
+            	   }
+            	   
                    byte[] bytes = file.getBytes();
-                   File filedir = new File(FileSavePath+ File.separator);
+                   File filedir = new File(filepath.toString());
                    //新环境 可能 出现  没有目录 的情况  (系统找不到指定路径)
                    if(!filedir.exists()){
                    log.info("创建新目录 "+filedir);
                     filedir.mkdirs();
                   }
-                   File savedFilepath=new File(filedir+file.getOriginalFilename());
+                   File savedFilepath=new File(filepath.append(file.getOriginalFilename()).toString());
                    BufferedOutputStream stream = new BufferedOutputStream(
                            new FileOutputStream(savedFilepath));
                    stream.write(bytes);
@@ -153,57 +161,21 @@ public class FileDaoUtil {
 	}
 	//多文件上传
 	//返回多个文件的path
-	public List<String> UploadFilesAndReturnPath( MultipartFile[] files){
-		log.info("uploadfilesandreturnpathlist");
+	public  static List<String> UploadFilesAndReturnPath( MultipartFile[] files){
+		log.info("UploadFilesAndReturnPath");
 		//listpath
    List<String> pathlist=new ArrayList<String>();
        //这里是多文件上传，
        //List<File> uploadedFiles = new ArrayList<File>();
        for (int i = 0; i < files.length; i++) {
            MultipartFile file = files[i];
-           
-
-           // Client File Name
-           String name = file.getOriginalFilename();
-          log.info("Client File Name = " + name);
-
-           if (name != null && name.length() > 0) {
-               try {
-                   byte[] bytes = file.getBytes();
-
-                   // Create the file on server
-                   /*File serverFile = new File(uploadRootDir.getAbsolutePath()
-                           + File.separator + name);*/
-                   //为了不重复创建给每个文件设置独立ID
-                  // File serverFile = new File("F:\\fileUpload"+ File.separator+new Date().toString() + name);
-                   File serverFile = new File("D:\\fileUpload"+ File.separator + name);
-                   log.info("保存路径D:\\fileUpload" + File.separator+ name);
-                   /*log.info("保存路径"+uploadRootDir.getAbsolutePath()
-                           + File.separator + name);*/
-                  /* if(!serverFile.exists()){
-                     log.info("不存在这个文件");
-                   	 //serverFile = new File("F:\\fileUpload"+ File.separator+new Date().toString() + name);
-                   	 //存在既创建一个新的
-                   	 serverFile.mkdirs();
-                   	 log.info("所以创建"+serverFile.mkdirs());
-                    }*/
-                   // log.info("创建后是否存在"+serverFile.exists());
-                   // Stream to write data to file in server.
-                   BufferedOutputStream stream = new BufferedOutputStream(
-                           new FileOutputStream(serverFile));
-                   stream.write(bytes);
-                   //这个有啥用？
-                   //uploadedFiles.add(serverFile);
-                   pathlist.add(serverFile.toString());
-                   log.info("serverFile " + pathlist);
                    
+            String path=UploadFile(file);
+            if(path!=null&&!path.isEmpty()) {
+            	 pathlist.add(path);
+            }
+           
                  
-                   stream.close();
-                   log.info("stream流关闭");
-               } catch (Exception e) {
-                  log.info("Error Write file: " + name);
-               }
-           }
        }
 		
 		return  pathlist;

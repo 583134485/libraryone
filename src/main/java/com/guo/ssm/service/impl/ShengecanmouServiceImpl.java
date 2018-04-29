@@ -13,9 +13,11 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.aspectj.apache.bcel.classfile.Field;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +36,7 @@ import com.guo.ssm.util.TimeDateUtil;
 @Service 
 public class ShengecanmouServiceImpl  implements ShengecanmouService{
 
-	Logger logger=Logger.getLogger(Class.class);
+	private static Logger logger=LoggerFactory.getLogger(ShengecanmouServiceImpl.class);
 	
 	@Autowired
 	ShengecanmouModelDao shengecanmouModelDao;
@@ -43,12 +45,12 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 	@Override
 	public String FileUpload(HttpServletRequest request,HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
 		
-		FileDaoUtil fileDaoUtil=new FileDaoUtil();
-		ExcelUtil excelUtil=new ExcelUtil();
+		//FileDaoUtil fileDaoUtil=new FileDaoUtil();
+		//ExcelUtil excelUtil=new ExcelUtil();
 		
-		//返回文件路径list
+		//返回文件路径list,多个文件的路径 。
 	 
-		List<String> pathlist=fileDaoUtil.UploadFilesAndReturnPath(files);
+		List<String> pathlist=FileDaoUtil.UploadFilesAndReturnPath(files);
 		logger.info("filepathlist:"+pathlist);
 		for(String excelpath:pathlist){
 			
@@ -56,7 +58,7 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 			try {
 				logger.info("读取excel");
 				//读取excel
-				shengecanmouModels = excelUtil.SingleExcelOfShengecanmouToModel(excelpath);
+				shengecanmouModels = ExcelUtil.SingleExcelOfShengecanmouToModel(excelpath);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -69,7 +71,8 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 			}
 			logger.info("批量插入数据库");
 			//批量长如并忽略重复数据
-			shengecanmouModelDao.insertByBatch(shengecanmouModels);
+			//shengecanmouModelDao.insertByBatch(shengecanmouModels);
+			logger.info("model:"+shengecanmouModels.toString());
 		   logger.info("插入完毕");
 		}
 		

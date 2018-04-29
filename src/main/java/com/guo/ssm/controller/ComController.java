@@ -58,6 +58,22 @@ public class ComController {
 		return "login";
 	}*/
 	@CrossOrigin(origins="*")
+    @RequestMapping(value = "/loginforperson")
+	@ResponseBody
+    public String login(HttpServletRequest request) {
+    	logger.info("login for person");
+		String username=request.getParameter("username");
+		String password=request.getParameter("password");
+		if(username.equals("admin")||password.equals("admin")) {
+			return "true";
+		}
+
+		
+        return "false";
+    }
+	
+	
+	@CrossOrigin(origins="*")
     @RequestMapping(value = "/login")
     public String showLoginForm(HttpServletRequest req) {
     	logger.info("login");

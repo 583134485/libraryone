@@ -92,7 +92,7 @@ public class ExcelUtil {
 						else {
 							 double d=cell.getNumericCellValue();
 							 d=MathUtil.KeepDecimal(d, 2);
-							 logger.info("d=="+d);
+							// logger.info("d=="+d);
 							// cell.setCellType(Cell.CELL_TYPE_STRING);
 							 cellvalue=Double.toString(d);
 						}
@@ -163,11 +163,15 @@ public class ExcelUtil {
 	 * @throws InvalidFormatException
 	 * @throws ParseException
 	 */
-	public List<ShengecanmouModel> SingleExcelOfShengecanmouToModel(String excelpath)
+	public  static List<ShengecanmouModel> SingleExcelOfShengecanmouToModel(String excelpath)
 			throws IOException, InvalidFormatException, ParseException { 		
 		// 创建file
 		File file = new File(excelpath);
-		if (file.isFile() && file.exists()) {
+		if(!file.isFile()||!file.exists()) {
+			logger.info("文件打开有问题");
+			return null;
+		}
+
 			
 			// 假设字段行的位置不固定,但为了保险起见，应为可能字段列没有被记录
 			// 3应该是第4行
@@ -394,19 +398,13 @@ public class ExcelUtil {
 					shengecanmouModel.setRecordtime(FileNametoDate(filename));
 					shengecanmouModels.add(shengecanmouModel);
 				}
-
 			}
-		
 			//close
 			fileInputStream.close();
 			// both if and else has return
 			return shengecanmouModels;
-
-		} else {
-			logger.info("文件打开有问题");
-			return null;
 		}
-	}
+
 
 	//一堆excel同时导入model 性能不知到会怎样,需要重新设计
 	public List<ShengecanmouModel> ManyExcelOfShengecanmouToModel(List<String> excelpathlist)
@@ -415,7 +413,7 @@ public class ExcelUtil {
 		
 	}
 	// 解析文件标题 to 日期
-	public java.sql.Date FileNametoDate(String filename) throws ParseException {
+	public  static java.sql.Date  FileNametoDate(String filename) throws ParseException {
 		String[] a = filename.split("\\-");
 		TimeDateUtil timeDateUtil = new TimeDateUtil();
 		String stringdate = a[1] + "-" + a[2] + "-" + a[3];
