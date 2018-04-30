@@ -16,14 +16,21 @@ http://www.springframework.org/schema/data/mongo
 http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
 	<!-- Activate annotation configured components -->
-	<context:annotation-config />
+ 	<context:annotation-config /> 
 
 	<!-- Scan components for annotations within the configured package -->
-<context:component-scan base-package="com.guo.ssm.repository" />
-	<bean id="ExcelModelRepository"
-		class="com.guo.ssm.repositories.impl.ExcelModelRepository">
+<context:component-scan base-package="com.guo.ssm.repositories" />
+
+	<bean id="ExcelRepository"
+		class="com.guo.ssm.repositories.impl.ExcelRepository">
 		<property name="mongoTemplate" ref="mongoTemplate" />
 	</bean>
+
+<!-- 	<bean id="ExcelModelRepository"
+		class="com.guo.ssm.repositories.impl.ExcelModelRepository">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+	</bean> -->
+	
 		<!-- Factory bean that creates the Mongo instance -->
 <bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
     <property name="host" value="localhost" />

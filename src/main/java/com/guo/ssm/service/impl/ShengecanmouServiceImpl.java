@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.guo.ssm.core.ExcelConstant;
 import com.guo.ssm.dao.ShengecanmouModelDao;
 import com.guo.ssm.model.ShengecanmouModel;
 import com.guo.ssm.service.ShengecanmouService;
@@ -44,40 +45,45 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 	//request and reponse 待用
 	@Override
 	public String FileUpload(HttpServletRequest request,HttpServletResponse response, @RequestParam("file") MultipartFile[] files) {
-		
-		//FileDaoUtil fileDaoUtil=new FileDaoUtil();
-		//ExcelUtil excelUtil=new ExcelUtil();
-		
-		//返回文件路径list,多个文件的路径 。
-	 
+		StringBuffer result=new StringBuffer();
+		result.append("上传并持久化");
+		//返回文件路径list,多个文件的路径 。	 
 		List<String> pathlist=FileDaoUtil.UploadFilesAndReturnPath(files);
 		logger.info("filepathlist:"+pathlist);
-		for(String excelpath:pathlist){
-			
+		for(String excelpath:pathlist){			
 			List<ShengecanmouModel> shengecanmouModels = null;
 			try {
-				logger.info("读取excel");
+				logger.info("读取excel:"+excelpath);
 				//读取excel
 				shengecanmouModels = ExcelUtil.SingleExcelOfShengecanmouToModel(excelpath);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return "error";
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return "error";
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return "error";
 			}
-			logger.info("批量插入数据库");
+			//logger.info("批量插入数据库");
 			//批量长如并忽略重复数据
-			//shengecanmouModelDao.insertByBatch(shengecanmouModels);
-			logger.info("model:"+shengecanmouModels.toString());
-		   logger.info("插入完毕");
+			try {	
+				shengecanmouModelDao.insertByBatch(shengecanmouModels);
+				
+			} catch (Exception e) {
+				logger.info("shengcanmoumodel插入失败");
+			}
+		
+			logger.info("model-size:"+shengecanmouModels.size());
+		   logger.info("插入完毕:"+excelpath);
 		}
 		
 		//程序不报错测显示
-		return "上传并存入数据库";
+		return result.toString();
 	}
 
 	
@@ -85,9 +91,9 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 	@Override
 	public String FileDownLoad(HttpServletRequest request, HttpServletResponse response) {	
 		FileDaoUtil fileDaoUtil=new FileDaoUtil();
-		String msg=FileDownLoad(request, response);
+		//String msg=fileDaoUtil.FileDownLoad(request, response);
 	
-		return msg;
+		return null;
 	}
 
 
@@ -95,7 +101,7 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 	//选择性的sql生成excel，并下载（压缩过的文件）
 	@Override
 	public String DownLoadSearchDataBaseToExcel(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("enterservice");
+		logger.info("DownLoadSearchDataBaseToExcel");
 /*		String startdate=null;
 		String enddate=null;
 		String id=null;
@@ -119,8 +125,19 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 		String id=request.getParameter("id");
 		logger.info("id"+id);
 		List<ShengecanmouModel> shengecanmouModels=null;
-		ExcelUtil excelUtil=new ExcelUtil();
-		TimeDateUtil timeDateUtil=new TimeDateUtil();
+		StringBuffer outputfilename=null;
+		if(startdate==null||startdate.isEmpty()||enddate==null||enddate.isEmpty()) {
+			logger.info("接受参数 有无 startdate 或 enddate");
+			return null;
+		}
+		else {
+			 outputfilename=new StringBuffer();
+			outputfilename.append("生意参谋-商品效果-导出").append(id);
+			outputfilename.append(startdate).append("--").append(enddate).append(".xlsx");
+		}
+		
+		//ExcelUtil excelUtil=new ExcelUtil();
+		//TimeDateUtil timeDateUtil=new TimeDateUtil();
 	
 		//虽说前端jquery已经避免了时期错误，这里就暂时不做了
 		//可以查一天，也可一id,也可以一天，一id
@@ -129,7 +146,7 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 			
 			java.sql.Date day = null;
 			try {
-				day = timeDateUtil.StringtoDate(startdate);
+				day = TimeDateUtil.StringtoDate(startdate);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -137,51 +154,23 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 			logger.info("查找数据库");
 		shengecanmouModels=	shengecanmouModelDao.findOneDayOneGood(day,id);
 	
-		//必须按顺序存放
-				List<String> name=new ArrayList<String>();
-				name.add("所属终端");
-				name.add("商品id");
-				name.add("商品标题");
-				name.add("商品在线状态");
-				name.add("商品链接");
-				name.add("浏览量");
-				name.add("访客数");
-				name.add("平均停留时长");
-				name.add("详情页跳出率");
-				name.add("下单转化率");		
-				name.add("下单支付转化率");
-				name.add("支付转化率");
-				name.add("下单金额");
-				name.add("下单商品件数");
-				name.add("下单买家数");
-				name.add("支付金额");
-				name.add("支付商品件数");
-				name.add("加购件数");		
-				name.add("访客平均价值");
-				name.add("点击次数");
-				name.add("点击率");
-				name.add("曝光量");
-				name.add("收藏人数");
-				name.add("搜索引导支付买家数");
-				name.add("客单价");
-				name.add("搜索支付转化率");
-				name.add("搜索引导访客数");
-				name.add("支付买家数");
-				name.add("售中售后成功退款金额");
-				name.add("售中售后成功退款笔数");
+		//必须按顺序存放 excel name 为了excel 制作
+		 List<String> name=ExcelConstant.getname();
+
 				String filepath=null;
 			try {
-				 filepath=excelUtil.MakeModelToExcel(shengecanmouModels, name, "F:\\fileDownLoad\\");
-				 logger.info("make excel");
+				 filepath=ExcelUtil.MakeModelToExcel(shengecanmouModels, name,outputfilename.toString());
+				 logger.info("make excel finsh"+filepath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				logger.info("someting error when MakeModelToExcel");
 			}
-			FileDaoUtil fileDaoUtil=new FileDaoUtil();
+			//FileDaoUtil fileDaoUtil=new FileDaoUtil();
 			String message=null;
 			 try {
-				 logger.info("filepath"+filepath);
-				message=fileDaoUtil.FileDownLoadNew(filepath, response);
+				 //logger.info("filepath"+filepath);
+				message=FileDaoUtil.FileDownLoadNew(filepath, response);
 				logger.info("down");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -191,9 +180,7 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 			return message;
 			
 			
-		}
-		
-		
+		}	
 		//虽然前端控制了错误日期顺序，但虽知道前端是我写的呢
 		//还是要判断一下先后顺序
 		else {
@@ -202,59 +189,31 @@ public class ShengecanmouServiceImpl  implements ShengecanmouService{
 			java.sql.Date start=null;
 			java.sql.Date end=null;
 			try {
-				start =timeDateUtil.StringtoDate(startdate);
-				end=timeDateUtil.StringtoDate(enddate);
+				start =TimeDateUtil.StringtoDate(startdate);
+				end=TimeDateUtil.StringtoDate(enddate);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			shengecanmouModels=shengecanmouModelDao.findLongDayGood(start, end,id);
+			//logger.info(shengecanmouModels.toString());
+			//必须按顺序存放 excel name 为了excel 制作
+			List<String> name=ExcelConstant.getname();
+
 			
-			//必须按顺序存放
-			List<String> name=new ArrayList<String>();
-			name.add("所属终端");
-			name.add("商品id");
-			name.add("商品标题");
-			name.add("商品在线状态");
-			name.add("商品链接");
-			name.add("浏览量");
-			name.add("访客数");
-			name.add("平均停留时长");
-			name.add("详情页跳出率");
-			name.add("下单转化率");		
-			name.add("下单支付转化率");
-			name.add("支付转化率");
-			name.add("下单金额");
-			name.add("下单商品件数");
-			name.add("下单买家数");
-			name.add("支付金额");
-			name.add("支付商品件数");
-			name.add("加购件数");		
-			name.add("访客平均价值");
-			name.add("点击次数");
-			name.add("点击率");
-			name.add("曝光量");
-			name.add("收藏人数");
-			name.add("搜索引导支付买家数");
-			name.add("客单价");
-			name.add("搜索支付转化率");
-			name.add("搜索引导访客数");
-			name.add("支付买家数");
-			name.add("售中售后成功退款金额");
-			name.add("售中售后成功退款笔数");
 			String filepath=null;
 		try {
-			 filepath=excelUtil.MakeModelToExcel(shengecanmouModels, name, "F:\\fileDownLoad\\");
-			 logger.info("make excel");
+			 filepath=ExcelUtil.MakeModelToExcel(shengecanmouModels, name,outputfilename.toString());
+			 logger.info("make excel finsh");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		FileDaoUtil fileDaoUtil=new FileDaoUtil();
+		//FileDaoUtil fileDaoUtil=new FileDaoUtil();
 		String message=null;
 		 try {
 			 logger.info("filepath"+filepath);
-			message=fileDaoUtil.FileDownLoadNew(filepath, response);
+			message=FileDaoUtil.FileDownLoadNew(filepath, response);
 			logger.info("down");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

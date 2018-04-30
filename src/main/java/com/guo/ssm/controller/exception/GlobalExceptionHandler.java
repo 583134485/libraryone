@@ -26,12 +26,13 @@ public class GlobalExceptionHandler {
    * @param e
    * @return
    */
-//	@ExceptionHandler(Exception.class)
-//	@ResponseBody
-//	String handelException(Exception e){
-//		log.error(e.getMessage(),e);
-//		return "something error unknown"+e.getMessage();
-//	}
+  /*关闭  exception   file down load 则 可以成功*/
+/*	@ExceptionHandler(Exception.class)
+	@ResponseBody
+	String handelException(Exception e){
+		log.error(e.getMessage(),e);
+		return "something error unknown"+e.getMessage();
+	}*/
 	
     /**
      * 处理所有业务异常

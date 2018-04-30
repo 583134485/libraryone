@@ -46,14 +46,12 @@ public class ExcelUtil {
 
 	private  static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
 
-	
+	// 集合对象 表示 不需要  声明 类
 	//解析 excel  直接 的成为  前端 可用 视图  （并列 模式）
  	public  static Map<String, List<String>> ParseExcelToExcelModel(String filepath) throws InvalidFormatException, IOException {
 		File file=new File(filepath);
 		if(file.isFile()&&file.exists()) {
 			FileInputStream fileInputStream = new FileInputStream(file);
-
-
 			// 用新的api
 			Workbook workbook = WorkbookFactory.create(fileInputStream);
 
@@ -156,6 +154,7 @@ public class ExcelUtil {
 	
 	
 	// 一个excel文件转化成model,同时识别 xls 和 xlsx
+ 	//需要 事先 声明类
 	/**
 	 * @param excelpath
 	 * @return
@@ -170,8 +169,8 @@ public class ExcelUtil {
 		if(!file.isFile()||!file.exists()) {
 			logger.info("文件打开有问题");
 			return null;
-		}
-			
+		}	
+		
 			// 假设字段行的位置不固定,但为了保险起见，应为可能字段列没有被记录
 			// 3应该是第4行
 			int rowindex = 3;
@@ -181,9 +180,7 @@ public class ExcelUtil {
 			List<ShengecanmouModel> shengecanmouModels = new ArrayList<ShengecanmouModel>();
 			// 文件输入流
 			FileInputStream fileInputStream = new FileInputStream(file);
-
 			String filename = file.getName();
-
 			/*
 			 * if(getFiletype(filename).equals("xls")||getFiletype(filename).
 			 * equals("xlsx")){
@@ -269,7 +266,7 @@ public class ExcelUtil {
 					case Cell.CELL_TYPE_STRING:
 						// string 值
 						String stringvalue = cell.getStringCellValue();
-						logger.info("行" + cell.getRowIndex() + "列" + cell.getColumnIndex() + "string:" + stringvalue);
+						//logger.info("行" + cell.getRowIndex() + "列" + cell.getColumnIndex() + "string:" + stringvalue);
 						// 找到字段列，还有其他方式可选
 						if (stringvalue.equals(new String("所属终端"))) {
 							// 只是为了 设置 字段列，还是有必要的
@@ -380,13 +377,12 @@ public class ExcelUtil {
 							if (tablename2.equals(new String("售中售后成功退款笔数"))) {
 								shengecanmouModel.setRefundnumbers(value);
 							}
-
 						}
 						// logger.info("number"+cell.getRowIndex()+"col"+cell.getColumnIndex()+"type"+cell.getCellType());
 						// String doublevalue=cell.getNumericCellValue();
 						// logger.info("numberic:"+cell.getNumericCellValue());
-						logger.info("numtosring" + "行" + cell.getRowIndex() + "列" + cell.getColumnIndex() + "value:"
-								+ cell.getStringCellValue());
+						//logger.info("numtosring" + "行" + cell.getRowIndex() + "列" + cell.getColumnIndex() + "value:"
+						//		+ cell.getStringCellValue());
 					default:
 						break;
 					}
@@ -438,7 +434,7 @@ public class ExcelUtil {
 	 * shengecanmouModelsd @param @param name @param @param
 	 * excelpath @param @return 参数 @return String 返回类型 @throws
 	 */
-	public String MakeModelToExcel(List<ShengecanmouModel> shengecanmouModels, List<String> name, String excelpath) throws IOException {
+	public static String MakeModelToExcel(List<ShengecanmouModel> shengecanmouModels, List<String> name,String filename) throws IOException {
 		// create a 工作簿
 		XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -447,10 +443,11 @@ public class ExcelUtil {
 		workbook.setSheetName(0, "先随便定了个sheet");
     
 		XSSFRow titleRow2 = sheet.createRow(0);
-		titleRow2.createCell(0).setCellValue("导入时间日期："+new java.util.Date().toString());
+		titleRow2.createCell(0).setCellValue("服务器系统导入时间时间日期（服务器时间）："+new java.util.Date().toString());
 		int indexrow = 3;
 		//filename
-		String filename="生意参谋-商品效果-导出"+shengecanmouModels.get(0).getRecordtime().toString()+".xlsx";
+		
+		//String filename="生意参谋-商品效果-导出"+shengecanmouModels.get(0).getRecordtime().toString()+".xlsx";
 		// 暂时创建第3行，字段行
 		XSSFRow titleRow = sheet.createRow(indexrow);
 		for (int i = 0; i < name.size(); i++) {
@@ -494,8 +491,8 @@ public class ExcelUtil {
 			value.add(smModel.getRefundamount());
 			value.add(smModel.getRefundnumbers());
 
-			// 每一列
-			for (int column = 0; column < name.size(); column++) {
+			// 每一列 // 便利  集合 再次输入  （可以一利用反射 遍历 类 model 输入）
+			for (int column = 0; column < value.size(); column++) {
 				row.createCell(column).setCellValue(value.get(column));
 
 			}
@@ -503,18 +500,20 @@ public class ExcelUtil {
 		}
 		//create new excel file
 		
-    File file=new File(excelpath+filename);
+ 
+/*    File file=new File(excelpath+filename);
     
     FileOutputStream fileOutputStream =new FileOutputStream(file);
     workbook.write(fileOutputStream);
     
+    
     //flush
     fileOutputStream.flush();
     //close
-    fileOutputStream.close();
-    
-         logger.info("finish excel");
-		return excelpath+filename;
+    fileOutputStream.close();*/
+		String filepath=FileDaoUtil.WorkSheetToFile(workbook, filename);  
+         logger.info("finish excel"+filename);
+		return filepath;
 	}
 
 	//临时读取excel file to dto 的 util 

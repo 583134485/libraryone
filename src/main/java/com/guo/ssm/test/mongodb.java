@@ -7,9 +7,11 @@ import org.bson.Document;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.guo.ssm.model.ExcelModel;
 import com.guo.ssm.model.ExcelViewModel;
 import com.guo.ssm.repositories.Repository;
 import com.guo.ssm.repositories.impl.ExcelModelRepository;
+import com.guo.ssm.repositories.impl.ExcelRepository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -72,7 +74,7 @@ public class mongodb {
 		   }*/
 	   
 	
-	public static void main( String args[] ){
+/*	public static void main( String args[] ){
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
                 "classpath:/spring/spring-mongo.xml");
  
@@ -82,6 +84,19 @@ public class mongodb {
         excelViewModel.filename="filenam";
         excelViewModel.setData(new ArrayList<>());
         repository.saveObject(excelViewModel);
+        
+	}*/
+	//
+	public static void main( String args[] ){
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
+                "classpath:/spring/spring-mongo.xml");
+ 
+        Repository repository = context.getBean(ExcelRepository.class);
+        
+        ExcelModel excelModel=new ExcelModel();
+        excelModel.filename="filename test";
+        excelModel.setData(null);
+        repository.saveObject(excelModel);
         
 	}
 	   }

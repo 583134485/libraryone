@@ -264,11 +264,11 @@
 			<artifactId>commons-configuration</artifactId>
 			<version>1.10</version>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations-java5</artifactId>
 			<version>RELEASE</version>
-		</dependency>
+		</dependency> -->
 		<!--mongodb end -->
 
 

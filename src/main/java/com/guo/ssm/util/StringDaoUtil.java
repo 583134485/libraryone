@@ -16,7 +16,7 @@ public class StringDaoUtil {
 		return a[0];
 	}
 	
-	public String PathToFileName(String filepath){
+	public  static String PathToFileName(String filepath){
 		File file=new File(filepath);
 		String filename=file.getName();
 		return filename;

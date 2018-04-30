@@ -22,7 +22,7 @@ public interface ShengecanmouModelDao {
 	
 	List<ShengecanmouModel> findConversionById(String id);
 	 
-	 //某一天某个id的 ，单条数据,可可以是某一天，也可以是某一个id
+	 //某一天某个id的 ，单条数据,可可以是某一天，也可以是某一个id  动态 id 可以没有
     List<ShengecanmouModel> findOneDayOneGood(@Param("recordtime")Date recordtime,@Param("id")String id);
     
     //一段时间的，一条id,或者一段时间的一个id,别全文搜索

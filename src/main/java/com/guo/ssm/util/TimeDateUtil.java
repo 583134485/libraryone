@@ -119,7 +119,7 @@ public class TimeDateUtil {
     
 	//stringto date 得到sql date 快速
 	//出现了java.util.date cannot be cast to java.sql.date
-	public java.sql.Date StringtoDate(String date) throws ParseException{
+	public static java.sql.Date StringtoDate(String date) throws ParseException{
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date utilday=sdf.parse(date);
 		java.sql.Date sqlday=new java.sql.Date(utilday.getTime());

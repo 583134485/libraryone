@@ -21,4 +21,7 @@ public class Constant {
 	//file upload for linux
 	//public static String uploadpath="/upload/";
 	
+	public static String downloadpath="C:\\fileDownload";
+	//public static String downloadpath="/download";
+	
 }

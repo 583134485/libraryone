@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.guo.ssm.core.ExcelConstant;
 import com.guo.ssm.dto.GoodSale3DDto;
 import com.guo.ssm.model.ShengecanmouModel;
 import com.guo.ssm.util.ExcelUtil;
@@ -67,46 +68,16 @@ public class ExcelDaoTest {
 	}
 	
 	//测试制作excel表格
-	@Test
+/*	@Test
 	public void testmakemodeltoexcel() throws InvalidFormatException, IOException, ParseException{
 		ExcelUtil tExcelUtil=new ExcelUtil();
 		String excelpath="F:\\excel\\【生意参谋】商品效果-2017-03-22-2017-03-22.xls";
-		List<ShengecanmouModel> shengecanmouModels=tExcelUtil.SingleExcelOfShengecanmouToModel(excelpath);
+		List<ShengecanmouModel> shengecanmouModels=ExcelUtil.SingleExcelOfShengecanmouToModel(excelpath);
 		//必须按顺序存放
-		List<String> name=new ArrayList<String>();
-		name.add("所属终端");
-		name.add("商品id");
-		name.add("商品标题");
-		name.add("商品在线状态");
-		name.add("商品链接");
-		name.add("浏览量");
-		name.add("访客数");
-		name.add("平均停留时长");
-		name.add("详情页跳出率");
-		name.add("下单转化率");		
-		name.add("下单支付转化率");
-		name.add("支付转化率");
-		name.add("下单金额");
-		name.add("下单商品件数");
-		name.add("下单买家数");
-		name.add("支付金额");
-		name.add("支付商品件数");
-		name.add("加购件数");		
-		name.add("访客平均价值");
-		name.add("点击次数");
-		name.add("点击率");
-		name.add("曝光量");
-		name.add("收藏人数");
-		name.add("搜索引导支付买家数");
-		name.add("客单价");
-		name.add("搜索支付转化率");
-		name.add("搜索引导访客数");
-		name.add("支付买家数");
-		name.add("售中售后成功退款金额");
-		name.add("售中售后成功退款笔数");
-		String path=tExcelUtil.MakeModelToExcel(shengecanmouModels, name, "F:\\excel\\");
+List<String> name =ExcelConstant.getname();
+		String path=ExcelUtil.MakeModelToExcel(shengecanmouModels, name);
 		
-	}
+	}*/
 	
 	@Test
 	public  void readexceltogoodsale3d(){

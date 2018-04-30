@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.LogoutAware;
+import org.hibernate.validator.internal.util.privilegedactions.GetMethodFromPropertyName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -69,11 +70,12 @@ public class ShengecanmouController {
         
     }
 	
+	/*下载  用 Get 同步 方式  异步ajax post 暂不能是按下载*/
 	@CrossOrigin(origins = "*")
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    //@RequestMapping(value = "/download", method = RequestMethod.POST)
+	 @RequestMapping(value = "/download", method = RequestMethod.GET)
     @ResponseBody
     public  String FileDownLoad(HttpServletRequest request,HttpServletResponse response) throws Exception {
-  logger.info("link");
 		String msg =shengecanmouService.DownLoadSearchDataBaseToExcel(request, response);
         //返回下载成功与否信息
    return msg;
