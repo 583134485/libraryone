@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.ssm.dao.RoleModelDao">
+
+
+
+<!--自增id  -->
+<insert id="createRole" parameterType="com.guo.ssm.model.RoleModel"
+useGeneratedKeys="true"
+ keyProperty="roleid">
+insert into 
+rolemodel
+(role,description)
+values(#{role},#{description})
+</insert>
+
+<insert id="addRolePermission" parameterType="long">
+insert into
+rolepermissionmodel
+(roleid,permissionid)
+values(#{roleid},#{permissionid})
+</insert>
+</mapper>
