@@ -33,7 +33,7 @@ http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 	
 		<!-- Factory bean that creates the Mongo instance -->
 <bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
-    <property name="host" value="localhost" />
+    <property name="host" value="47.94.242.124" />
     <property name="port" value="27017" />
 </bean>
 

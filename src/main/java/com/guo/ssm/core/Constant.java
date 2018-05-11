@@ -22,6 +22,6 @@ public class Constant {
 	//public static String uploadpath="/upload/";
 	
 	public static String downloadpath="C:\\fileDownload";
-	//public static String downloadpath="/download";
+	//public static String downloadpath="/download/";
 	
 }

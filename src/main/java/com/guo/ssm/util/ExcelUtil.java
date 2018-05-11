@@ -443,7 +443,7 @@ public class ExcelUtil {
 		workbook.setSheetName(0, "先随便定了个sheet");
     
 		XSSFRow titleRow2 = sheet.createRow(0);
-		titleRow2.createCell(0).setCellValue("服务器系统导入时间时间日期（服务器时间）："+new java.util.Date().toString());
+		titleRow2.createCell(0).setCellValue("服务器系统制作报表日期（服务器时间）："+new java.util.Date().toString());
 		int indexrow = 3;
 		//filename
 		
