@@ -5,23 +5,17 @@ import java.util.List;
 import com.guo.ssm.model.User;
 
 public interface UserDao {
-	
-     List <User> findAllUser();
-     
-     
-	void addUser(User user);
-	
-	void  updateUser(User user); 
-	
-	void deleteUser(long userid);
-	
-	User findUserById(long userid);
-	
-	User findUserByName(String username);
 
+    List<User> findAllUser();
 
-	
-	
-	
+    void addUser(User user);
+
+    void updateUser(User user);
+
+    void deleteUser(long userid);
+
+    User findUserById(long userid);
+
+    User findUserByName(String username);
 
 }

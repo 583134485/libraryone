@@ -1,20 +1,12 @@
 package com.guo.ssm.controller.exception;
 
 import org.apache.log4j.Logger;
-import org.apache.shiro.authz.UnauthorizedException;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.servlet.ModelAndView;
-
 
 
 //controlleradvice 所有controller 错误
 //@ControllerAdvice
 public class DefaultExceptionHandler {
-	Logger log=Logger.getLogger(getClass());
+    Logger log = Logger.getLogger(getClass());
     /**
      * 没有权限 异常
      * <p/>

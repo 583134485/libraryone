@@ -10,6 +10,5 @@ public interface KeysDao {
 	List <KeysModel> findall();
 	
 	KeysModel findbyname(String name);
-	
 
 }

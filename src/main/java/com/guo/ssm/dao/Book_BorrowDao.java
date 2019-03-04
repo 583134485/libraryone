@@ -16,8 +16,4 @@ public interface Book_BorrowDao {
 	
 	Book_Borrow findBorrowById(long borrowid);
 
-
-	
-	
-
 }

@@ -3,43 +3,43 @@
 <mapper namespace="com.guo.ssm.dao.UserDao">
 
 
-<!-- list User  defind lisr-->
-<!-- <resultMap type="User" id="resultUser">
-<id     column="userid"    property="userid" />
-<result column="userpassword"  property="userpassword"/>
-<result column="username"  property="username"/>
-<result column="userclass" property="userclass"/>
-</resultMap>
- -->
-<select id="findAllUser"  resultType="User">
-SELECT *
-FROM user
-ORDER BY userid <!-- DESC -->
-</select>
+    <!-- list User  defind lisr-->
+    <!-- <resultMap type="User" id="resultUser">
+    <id     column="userid"    property="userid" />
+    <result column="userpassword"  property="userpassword"/>
+    <result column="username"  property="username"/>
+    <result column="userclass" property="userclass"/>
+    </resultMap>
+     -->
+    <select id="findAllUser" resultType="User">
+        SELECT *
+        FROM user
+        ORDER BY userid <!-- DESC -->
+    </select>
 
-<select id="findUserById" parameterType="long" resultType="User">
+    <select id="findUserById" parameterType="long" resultType="User">
 select *
 from user
 where userid=#{userid}
 </select>
 
-<select id="findUserByName" parameterType="String" resultType="User">
+    <select id="findUserByName" parameterType="String" resultType="User">
 select *
 from user
 where username=#{username}
 </select>
 
 
-<insert id="addUser" 
-parameterType="User" 
-useGeneratedKeys="true"
- keyProperty="userid" >
+    <insert id="addUser"
+            parameterType="User"
+            useGeneratedKeys="true"
+            keyProperty="userid">
  insert into user (username,userpassword,userclass)
  values        (#{username},#{userpassword},#{userclass})
 
 </insert>
 
-<update id="updateUser" parameterType="User"> 
+    <update id="updateUser" parameterType="User">
 update  user
 set    
  username=#{username},userpassword=#{userpassword},userclass=#{userclass}
@@ -47,11 +47,10 @@ where   userid=#{userid}
    
 </update>
 
-<delete id="deleteUser" parameterType="long">
+    <delete id="deleteUser" parameterType="long">
 delete from user
 where userid=#{userid}
-</delete> 
-
+</delete>
 
 
 </mapper>
